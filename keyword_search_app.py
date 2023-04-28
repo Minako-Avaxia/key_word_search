@@ -42,3 +42,19 @@ if keyword:
         st.markdown(href, unsafe_allow_html=True)
     else:
         st.write("No results found.")
+
+# Allow user to insert data
+st.subheader("Insert Data")
+store_name = st.text_input("Enter store name:")
+sales = st.number_input("Enter sales:")
+
+# Define function to insert data into Snowflake
+def insert_data(store_name, sales):
+    cursor = conn.cursor()
+    query = f"INSERT INTO STORE (S_STORE_NAME, S_SALES) VALUES ('{store_name}', {sales})"
+    cursor.execute(query)
+    conn.commit()
+    
+if st.button("Insert"):
+    insert_data(store_name, sales)
+    st.write("Data inserted successfully.")
